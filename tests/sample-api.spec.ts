@@ -5,7 +5,7 @@ describe("sample api test", () => {
     it("status 200 with id", async () => {
         const req = {
             query: {
-                id: "ezaki"
+                id: 1
             }
         }
         // const res = {
