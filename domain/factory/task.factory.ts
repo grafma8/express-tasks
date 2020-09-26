@@ -8,12 +8,12 @@ import { UserRepository } from "../repository/UserRepository";
 
 define(Task, (faker: typeof Faker) => {
   const task = getCustomRepository(TaskRepository).create();
-  task.task_name = faker.lorem.word();
+  task.name = faker.lorem.word();
   task.time_start = faker.date.past();
   task.time_end = faker.date.future();
   task.time_remain = task.time_end.getTime() - task.time_start.getTime();
-  task.task_type = 0;
-  task.task_status = 0;
+  task.type = 0;
+  task.status = 0;
 
   task.owner = factory(User)() as any;
 

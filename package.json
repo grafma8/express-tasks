@@ -35,7 +35,7 @@
     "start": "ts-node index.ts",
     "ts-node": "ts-node",
     "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
-    "dev-seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed --configName default",
-    "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed --configName production"
+    "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed --connection default",
+    "seed:run-prod": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed --connection production"
   }
 }

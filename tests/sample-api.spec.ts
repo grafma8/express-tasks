@@ -2,7 +2,7 @@ import supertest from "supertest";
 import {app} from "../app";
 
 describe("sample api test", () => {
-    it("status 200 with id", async () => {
+    it("status 200 with id", async (done) => {
         const req = {
             query: {
                 id: 1
@@ -19,5 +19,6 @@ describe("sample api test", () => {
         // expect(response.text).toEqual("hello");
 
         // expect(res.status.mock.calls[0][0]).toBe(200)
+        done();
     })
 })

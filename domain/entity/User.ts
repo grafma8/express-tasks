@@ -34,7 +34,10 @@ export class User {
     default: 0,
     type: "int2",
   })
-  user_type!: number;
+  type!: number;
+
+  @Column({ default: 0, type: "int2" })
+  status!: number;
 
   @OneToMany((type) => Task, (task) => task.owner)
   tasks!: Task[];

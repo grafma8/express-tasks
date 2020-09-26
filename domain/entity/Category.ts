@@ -18,10 +18,10 @@ export class Category {
   category_id!: number;
 
   @Column()
-  category_name!: string;
+  name!: string;
 
   @Column()
-  category_type!: number;
+  type!: number;
 
   @ManyToOne((type) => User, (owner) => owner.categories, { nullable: false })
   @JoinColumn({ name: "owner_id" })

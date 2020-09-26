@@ -21,7 +21,7 @@ export class Task {
 
   @Column()
   @Min(3)
-  task_name!: string;
+  name!: string;
 
   @Column({
     // type: "timestamp",
@@ -41,13 +41,13 @@ export class Task {
   @Column({
     type: "int2",
   })
-  task_type!: number;
+  type!: number;
 
   @Column({
     type: "int2",
     default: 0
   })
-  task_status!: number;
+  status!: number;
 
   @OneToMany((type) => TaskHistory, (task_history) => task_history.task)
   task_histories?: TaskHistory[];

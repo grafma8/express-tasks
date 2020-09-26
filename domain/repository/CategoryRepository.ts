@@ -4,6 +4,6 @@ import { Category } from "../entity/Category";
 @EntityRepository(Category)
 export class CategoryRepository extends Repository<Category> {
   findByName(category_name: string) {
-    return this.findOne({ category_name });
+    return this.findOne({ name });
   }
 }
