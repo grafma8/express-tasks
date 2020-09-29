@@ -11,6 +11,26 @@ services:
             - ./initdb.d:/docker-entrypoint-initdb.d
         ports:
             - 5433:5432
+        networks:
+            - express-tasks
+
+    mock_server:
+        build:
+            context: ./mock-server
+            dockerfile: Dockerfile
+        container_name: mock_server
+        restart: always
+        volumes:
+            - ./express-tasks-openapi.yml:/openapi.yml
+        networks:
+            - express-tasks
+    
+    swagger_ui:
+        image: swaggerapi/swagger-ui
+        ports:
+            - 3003:8080
+networks:
+    express-tasks:
 # volumes:
 #    postgres-db:
 #        driver_opts:

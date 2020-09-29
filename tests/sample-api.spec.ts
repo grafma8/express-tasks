@@ -2,7 +2,7 @@ import supertest from "supertest";
 import {app} from "../app";
 
 describe("sample api test", () => {
-    it("status 200 with id", async (done) => {
+    it("should get status 200", async (done) => {
         const req = {
             query: {
                 id: 1
