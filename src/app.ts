@@ -1,6 +1,3 @@
-import { config } from "dotenv";
-config({ path: "./.env" });
-
 import express from "express";
 import "reflect-metadata";
 import {createConnection} from "typeorm";
@@ -10,7 +7,6 @@ import {User} from "./domain/entity/User";
 import logger from "morgan";
 
 const API_PATH_V1 = process.env.API_PATH_V1
-const APP_PORT = process.env.APP_PORT;
 
 export const app = express();
 app.use(express.json());

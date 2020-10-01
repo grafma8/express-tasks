@@ -1,0 +1,474 @@
+openapi: 3.0.0
+info:
+  title: task-management
+  version: '1.0'
+  contact:
+    email: 34454174+grafma8@users.noreply.github.com
+  description: sample api for task-management
+servers:
+  - url: 'http://localhost:3000'
+tags:
+  - name: user
+paths:
+  '/users/{user_id}':
+    get:
+      summary: get_user_info
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: User
+                type: object
+                x-examples:
+                  example-1:
+                    user_id: 1
+                    user_name: string
+                    email: string
+                    user_type: 0
+                    user_status: 0
+                properties:
+                  user_id:
+                    type: number
+                  user_name:
+                    type: string
+                  email:
+                    type: string
+                  user_type:
+                    type: number
+                  user_status:
+                    type: number
+              examples:
+                example-1:
+                  value:
+                    user_id: 0
+                    user_name: string
+                    email: string
+                    user_type: 0
+                    user_status: 0
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: get-users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            examples: {}
+      description: get user information with user_id
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+  /user/tasks:
+    get:
+      summary: get-tasks
+      tags:
+        - task
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: Task
+                type: object
+                x-examples:
+                  example-1:
+                    task_id: 1
+                    task_name: string
+                    time_start: string
+                    time_end: string
+                    time_remain: 0
+                    task_type: 0
+                    task_status: 0
+                    owner_id: 1
+                    categories_id:
+                      - 1
+                    parent_id: 0
+                    created_at: string
+                    updated_at: string
+                properties:
+                  task_id:
+                    type: number
+                  task_name:
+                    type: string
+                  time_start:
+                    type: string
+                  time_end:
+                    type: string
+                  time_remain:
+                    type: number
+                  task_type:
+                    type: number
+                  task_status:
+                    type: number
+                  owner_id:
+                    type: number
+                  categories_id:
+                    type: array
+                    items:
+                      type: number
+                  parent_id:
+                    type: number
+              examples:
+                example-1:
+                  value:
+                    task_id: 0
+                    task_name: string
+                    time_start: string
+                    time_end: string
+                    time_remain: 0
+                    task_type: 0
+                    task_status: 0
+                    owner_id: 0
+                    categories_id:
+                      - 0
+                    parent_id: 0
+                    created_at: string
+                    updated_at: string
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: get-tasks
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: page
+        - schema:
+            type: integer
+          in: query
+          name: per_page
+        - schema:
+            type: string
+          in: query
+          name: since
+        - schema:
+            type: integer
+          in: query
+          name: status
+      description: get tasks of the authorized user
+    parameters: []
+  /user/categories:
+    get:
+      summary: get-categories
+      tags:
+        - category
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: Category
+                type: object
+                x-examples:
+                  example-1:
+                    category_id: 1
+                    category_name: string
+                    category_type: 0
+                    owner_id: 1
+                    parent_id: 0
+                    created_at: string
+                    updated_at: string
+                properties:
+                  category_id:
+                    type: number
+                  category_name:
+                    type: string
+                  category_type:
+                    type: number
+                  owner_id:
+                    type: number
+                  parent_id:
+                    type: number
+              examples: {}
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '402':
+          description: Payment Required
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: get-categories
+      parameters:
+        - schema:
+            type: integer
+            default: 1
+          in: query
+          name: page
+        - schema:
+            type: integer
+            default: 30
+          in: query
+          name: per_page
+      description: get categories of the authorized user
+    parameters: []
+  /users/registration:
+    post:
+      summary: registering user
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      operationId: post-users-registration
+      description: creating user
+  '/categories/{category_id}':
+    put:
+      summary: update category
+      tags:
+        - category
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: put-categories
+      description: update category
+    parameters:
+      - schema:
+          type: string
+        name: category_id
+        in: path
+        required: true
+  /categories:
+    post:
+      summary: create category
+      tags:
+        - category
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+      operationId: post-categories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                type:
+                  type: string
+                owner_id:
+                  type: string
+                parent_id:
+                  type: string
+      description: create category
+  /tasks:
+    post:
+      summary: create task
+      tags:
+        - task
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      operationId: post-tasks
+      description: create tasks
+  '/tasks/{task_id}':
+    put:
+      summary: update task
+      tags:
+        - task
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: put-tasks
+      description: update tasks
+    delete:
+      summary: delete task
+      tags:
+        - task
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1user~1tasks/get/responses/200/content/application~1json/schema'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: delete-tasks
+      description: delete tasks
+    parameters:
+      - schema:
+          type: integer
+        name: task_id
+        in: path
+        required: true
+  /task_histories:
+    post:
+      summary: create task histories
+      tags:
+        - task_history
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: post-task_histories
+      description: create task histories
+  '/task_histories/{task_history_id}':
+    put:
+      summary: update task histories
+      tags:
+        - task_history
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: put-task_histories
+      description: update task histories
+    delete:
+      summary: delete task histories
+      tags:
+        - task_history
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: delete-task_histories
+      description: delete task histories
+    parameters:
+      - schema:
+          type: string
+        name: task_history_id
+        in: path
+        required: true
+  /user/task_histories:
+    get:
+      summary: get task histories
+      tags:
+        - task_history
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: get-user-task_histories
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: page
+        - schema:
+            type: integer
+          in: query
+          name: per_page
+        - schema:
+            type: string
+          in: query
+          name: since
+components:
+  schemas: {}
+  securitySchemes: {}
