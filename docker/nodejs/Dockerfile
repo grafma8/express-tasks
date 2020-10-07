@@ -4,11 +4,11 @@ USER node
 
 WORKDIR /home/node/app
 
-# COPY ../../src/package.json ./
+# COPY ../../server/package.json ./
 
 # RUN yarn install
 # RUN yarn install --production=true
 
-# COPY ../../src ./
+# COPY ../../server ./
 
 EXPOSE 8080

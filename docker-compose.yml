@@ -7,7 +7,7 @@ services:
         container_name: xtasks-node
         tty: true
         volumes:
-            - ./src:/home/node/app
+            - ./server:/home/node/app
             - ./yarn-init.sh:/home/node/app/yarn-init.sh
         ports:
             - ${APP_PORT}:8080
