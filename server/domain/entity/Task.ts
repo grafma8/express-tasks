@@ -45,7 +45,7 @@ export class Task {
 
   @Column({
     type: "int2",
-    default: 0
+    default: 0,
   })
   status!: number;
 

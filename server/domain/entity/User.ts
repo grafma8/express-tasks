@@ -8,7 +8,6 @@ import {
 } from "typeorm";
 import { IsEmail, Min } from "class-validator";
 import { Task } from "./Task";
-import { TaskHistory } from "./TaskHistory";
 import { Category } from "./Category";
 
 @Entity()

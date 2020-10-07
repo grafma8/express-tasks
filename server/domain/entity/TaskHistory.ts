@@ -8,7 +8,6 @@ import {
   JoinColumn,
 } from "typeorm";
 import { Task } from "./Task";
-import { User } from "./User";
 
 @Entity()
 export class TaskHistory {
@@ -24,7 +23,6 @@ export class TaskHistory {
   @ManyToOne((type) => Task, (task) => task.task_histories, { nullable: false })
   @JoinColumn({ name: "task_id" })
   task!: Task;
-
 
   @CreateDateColumn()
   created_at!: Date;

@@ -1,4 +1,4 @@
-import { Connection } from 'typeorm';
+import { Connection } from "typeorm";
 import { Seeder, Factory } from "typeorm-seeding";
 import { TaskHistory } from "../entity/TaskHistory";
 

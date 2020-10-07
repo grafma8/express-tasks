@@ -11,9 +11,9 @@ define(TaskHistory, (faker: typeof Faker) => {
   task_hist.duration =
     faker.date.future().getTime() - task_hist.time_done.getTime();
 
-  const task = getCustomRepository(TaskRepository).findOne(
-    { task_id: 1 },
-  ) as any;
+  const task = getCustomRepository(TaskRepository).findOne({
+    task_id: 1,
+  }) as any;
   task_hist.task = task;
 
   return task_hist;

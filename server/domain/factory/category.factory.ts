@@ -12,7 +12,9 @@ define(Category, (faker: typeof Faker) => {
   category.type = 0;
 
   // category.owner = factory(User)() as any;
-  const user = getCustomRepository(UserRepository).findOne({user_id: 1}) as any
+  const user = getCustomRepository(UserRepository).findOne({
+    user_id: 1,
+  }) as any;
   category.owner = user;
 
   return category;
