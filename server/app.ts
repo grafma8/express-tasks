@@ -3,6 +3,8 @@ config({ path: "../.env" });
 
 import express, { Request, Response, Router } from "express";
 import bodyParser from "body-parser";
+import favicon from "serve-favicon";
+import serveStatic from "serve-static";
 import { connectLogger } from "log4js";
 import { systemLogger, accessLogger, errorLogger } from "./utils/log";
 
@@ -18,6 +20,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 );
 app.use(connectLogger(accessLogger, {}));
+app.use(favicon("./public/assets/img/favicon.ico"));
+app.use(serveStatic(APP_PUBLIC_PATH));
 const routerBase: Router = express.Router();
 
 routerBase.get("/", baseController.getIndex);
