@@ -2,6 +2,7 @@ import { config } from "dotenv";
 config({ path: "../.env" });
 
 import express, { Request, Response, Router } from "express";
+import bodyParser from "body-parser";
 import { connectLogger } from "log4js";
 import { systemLogger, accessLogger, errorLogger } from "./utils/log";
 
@@ -13,16 +14,8 @@ const API_BASE_V1 = process.env.API_BASE_V1 || "/api/v1";
 
 const app = express();
 
-//         } else if (result !== null && result !== undefined) {
-//             res.json(result);
-//         }
-//     });
-// });
-app.get(
-  API_PATH_V1 + "/test",
-  (req: express.Request, res: express.Response) => {
-    res.json(req.body);
-  }
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 );
 app.use(connectLogger(accessLogger, {}));
 const routerBase: Router = express.Router();
