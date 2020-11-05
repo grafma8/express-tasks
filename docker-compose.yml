@@ -9,8 +9,9 @@ services:
         volumes:
             - ./server:/home/node/app
             - ./yarn-init.sh:/home/node/app/yarn-init.sh
+            - .env:/home/node/.env
         ports:
-            - ${APP_PORT}:8080
+            - ${APP_PORT}:3000
         networks:
             - express-tasks
         depends_on:
@@ -41,7 +42,7 @@ services:
         container_name: xtasks-prism
         restart: always
         volumes:
-            - ./xtasks-openapi.yaml:/openapi.yaml
+            - ./xtasks-openapi.v1.yaml:/openapi.yaml
         ports:
             - 4010:4010
         networks:
@@ -53,7 +54,7 @@ services:
         environment:
             - URL=http://localhost:3003/xtasks-openapi.yaml
         volumes:
-            - ../xtasks-openapi.yaml:/usr/share/nginx/html/xtasks-openapi.yaml
+            - ./xtasks-openapi.v1.yaml:/usr/share/nginx/html/xtasks-openapi.yaml
         ports:
             - 3003:8080
         networks:

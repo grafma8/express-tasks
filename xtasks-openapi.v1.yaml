@@ -229,7 +229,7 @@ paths:
           name: per_page
       description: get categories of the authorized user
     parameters: []
-  /users/registration:
+  /registration:
     post:
       summary: registering user
       tags:
@@ -247,6 +247,7 @@ paths:
           description: Forbidden
       operationId: post-users-registration
       description: creating user
+    parameters: []
   '/categories/{category_id}':
     put:
       summary: update category
@@ -271,6 +272,18 @@ paths:
         name: category_id
         in: path
         required: true
+    delete:
+      summary: ''
+      operationId: delete-categories-category_id
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
   /categories:
     post:
       summary: create category
@@ -469,6 +482,33 @@ paths:
             type: string
           in: query
           name: since
+  /auth/login:
+    post:
+      summary: ''
+      operationId: post-auth-login
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+  /auth/logout:
+    post:
+      summary: ''
+      operationId: post-auth-logout
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
 components:
   schemas: {}
   securitySchemes: {}

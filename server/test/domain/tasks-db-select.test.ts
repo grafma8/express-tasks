@@ -1,9 +1,9 @@
 import { Connection, createConnection, getCustomRepository } from "typeorm";
-import { User } from "../entity/User";
-import { CategoryRepository } from "../repository/CategoryRepository";
-import { TaskHistoryRepository } from "../repository/TaskHistoryRepository";
-import { TaskRepository } from "../repository/TaskRepository";
-import { UserRepository } from "../repository/UserRepository";
+import { User } from "../../domain/entity/User";
+import { CategoryRepository } from "../../domain/repository/CategoryRepository";
+import { TaskHistoryRepository } from "../../domain/repository/TaskHistoryRepository";
+import { TaskRepository } from "../../domain/repository/TaskRepository";
+import { UserRepository } from "../../domain/repository/UserRepository";
 
 describe("Sample Tasks Test", () => {
   let connection: Connection;

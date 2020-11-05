@@ -5,10 +5,10 @@ import {
   factory,
   setConnectionOptions,
 } from "typeorm-seeding";
-import { User } from "../entity/User";
+import { User } from "../../domain/entity/User";
 import { Connection } from "typeorm";
-import { Task } from "../entity/Task";
-import { TaskRepository } from "../repository/TaskRepository";
+import { Task } from "../../domain/entity/Task";
+import { TaskRepository } from "../../domain/repository/TaskRepository";
 
 describe("Sample Integration Test", () => {
   let connection: Connection;
@@ -17,8 +17,8 @@ describe("Sample Integration Test", () => {
       type: "sqlite",
       // database: ":memory:",
       database: "test.db",
-      // entities: ["../entity/**/*{.ts,.js}"],
-      entities: [__dirname + "/../entity/*{.js,.ts}"],
+      // entities: ["../../domain/entity/**/*{.ts,.js}"],
+      entities: [__dirname + "/../../domain/entity/*{.js,.ts}"],
       synchronize: true,
     });
     connection = await useRefreshDatabase();
@@ -47,7 +47,7 @@ describe("Sample Integration Test", () => {
       .getCustomRepository(TaskRepository)
       .findOne(createdTask.task_id);
     if (task) {
-      expect(createdTask.task_name).toBe(task.task_name);
+      expect(createdTask.name).toBe(task.name);
     }
     done();
   });
