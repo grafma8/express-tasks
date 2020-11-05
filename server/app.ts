@@ -6,21 +6,19 @@ import { Request, Response } from "express";
 import { User } from "./domain/entity/User";
 import logger from "morgan";
 
-const API_PATH_V1 = process.env.API_PATH_V1;
+import { connectLogger } from "log4js";
+import { systemLogger, accessLogger, errorLogger } from "./utils/log";
 
 export const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(logger("short"));
 
-// createConnection().then(async connection => {
+const APP_PORT = process.env.APP_PORT || 3000;
+const APP_PUBLIC_PATH = process.env.APP_PUBLIC_PATH || "./public";
+const API_BASE_V1 = process.env.API_BASE_V1 || "/api/v1";
 
-// register express routes from defined application routes
-// Routes.forEach(route => {
-//     (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
-//         const result = (new (route.controller as any))[route.action](req, res, next);
-//         if (result instanceof Promise) {
-//             result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
+const app = express();
 
 //         } else if (result !== null && result !== undefined) {
 //             res.json(result);
@@ -33,17 +31,15 @@ app.get(
     res.json(req.body);
   }
 );
+app.use(connectLogger(accessLogger, {}));
 
 // }).catch(error => console.log(error));
 
-// router.get(
-//   API_PATH_V1 + "/users/:id",
-//   (req: express.Request, res: express.Response) => {
-//     res.json({ body: req.body, id: req.params.id });
-//   }
-// );
+// errors
+app.use((err: Error, req: Request, res: Response, next: any): void => {
+  errorLogger.error(err);
+  res.status(500).send("Internal Server Error");
+  next(err);
+});
 
-// app.use(router);
-// app.listen(APP_PORT, () => {
-//   console.log(`app listening on port ${APP_PORT}`);
-// });
+export default app;
