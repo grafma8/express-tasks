@@ -1,18 +1,11 @@
-import express from "express";
-import "reflect-metadata";
-import { createConnection } from "typeorm";
-import { Request, Response } from "express";
-// import {Routes} from "./routes";
-import { User } from "./domain/entity/User";
-import logger from "morgan";
+import { config } from "dotenv";
+config({ path: "../.env" });
 
+import express, { Request, Response, Router } from "express";
 import { connectLogger } from "log4js";
 import { systemLogger, accessLogger, errorLogger } from "./utils/log";
 
-export const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(logger("short"));
+import * as baseController from "./controller/base";
 
 const APP_PORT = process.env.APP_PORT || 3000;
 const APP_PUBLIC_PATH = process.env.APP_PUBLIC_PATH || "./public";
@@ -32,8 +25,13 @@ app.get(
   }
 );
 app.use(connectLogger(accessLogger, {}));
+const routerBase: Router = express.Router();
 
-// }).catch(error => console.log(error));
+routerBase.get("/", baseController.getIndex);
+routerBase.get("/ping", baseController.getPing);
+routerBase.get(API_BASE_V1 + "/ping", baseController.getPing);
+
+app.use(routerBase);
 
 // errors
 app.use((err: Error, req: Request, res: Response, next: any): void => {
