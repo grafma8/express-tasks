@@ -37,6 +37,11 @@ app.use(csrf({ cookie: false }));
 app.use(connectLogger(accessLogger, {}));
 app.use(favicon("./public/assets/img/favicon.ico"));
 app.use(serveStatic(APP_PUBLIC_PATH));
+
+app.set("APP_PORT", APP_PORT);
+app.set("view engine", "pug");
+app.set("views", "./views");
+
 const routerBase: Router = express.Router();
 
 routerBase.get("/", baseController.getIndex);

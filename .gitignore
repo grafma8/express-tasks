@@ -4,6 +4,10 @@ ormconfig.json
 
 server/log
 
+server/public/assets/js/index.js.LICENSE.txt
+server/public/assets/js/index.js.map
+server/public/assets/js/index.js
+
 # Logs
 logs
 *.log
