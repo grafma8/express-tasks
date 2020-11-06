@@ -22,6 +22,12 @@ log4js.configure({
       filename: "./log/error.log",
       pattern: ".yyyy-MM-dd",
       daysToKeep: 7,
+    },
+    DebugLogAppender: {
+      type: "dateFile",
+      filename: "./log/debug.log",
+      pattern: ".yyyy-MM-dd",
+      daysToKeep: 7,
     }
   },
   categories: {
@@ -53,6 +59,14 @@ log4js.configure({
       appenders: ["ConsoleLogAppender"],
       level: "error"
     },
+    debug: {
+      appenders: ["DebugLogAppender",],
+      level: "debug"
+    },
+    "debug.dev": {
+      appenders: ["ConsoleLogAppender"],
+      level: "debug"
+    }
   },
 });
 
@@ -61,3 +75,4 @@ export const logger = log4js.getLogger();
 export const systemLogger = isDev ? log4js.getLogger("system.dev") : log4js.getLogger("system")
 export const accessLogger = isDev ? log4js.getLogger("access.dev") : log4js.getLogger("access")
 export const errorLogger = isDev ? log4js.getLogger("error.dev") : log4js.getLogger("error")
+export const debugLogger = isDev ? log4js.getLogger("debug.dev") : log4js.getLogger("debug")
