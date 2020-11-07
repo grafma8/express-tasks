@@ -16,6 +16,6 @@ define(User, (faker: typeof Faker) => {
   const user = getCustomRepository(UserRepository).create();
   user.user_name = userName;
   user.email = email;
-  user.password_hash = bcrypt.hashSync(password, 10);
+  user.password = password;
   return user;
 });
