@@ -8,7 +8,6 @@ services:
         tty: true
         volumes:
             - ./server:/home/node/app
-            - ./yarn-init.sh:/home/node/app/yarn-init.sh
             - .env:/home/node/.env
         ports:
             - ${APP_PORT}:3000
@@ -16,7 +15,7 @@ services:
             - express-tasks
         depends_on:
             - postgres
-        
+
     postgres:
         build:
             context: ./docker/postgres
@@ -31,7 +30,7 @@ services:
             - ./docker/postgres/tmp-postgres:/var/lib/postgresql/data
             - ./docker/postgres/initdb.d:/docker-entrypoint-initdb.d
         ports:
-            - 5433:5432
+            - 5432:5432
         networks:
             - express-tasks
 
@@ -40,7 +39,6 @@ services:
             context: ./docker/prism
             dockerfile: Dockerfile
         container_name: xtasks-prism
-        restart: always
         volumes:
             - ./xtasks-openapi.v1.yaml:/openapi.yaml
         ports:

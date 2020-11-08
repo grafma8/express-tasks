@@ -31,6 +31,38 @@
         }
     },
     {
+        "name": "production",
+        "type": "postgres",
+        "url": "postgres://xxxx",
+        "host": "localhost",
+        "port": 5432,
+        "username": "dev_user",
+        "password": "",
+        "database": "production_db",
+        "syncronize": false,
+        "logging": true,
+        "entities": [
+            "domain/entity/**/*.ts"
+        ],
+        "migrations": [
+            "domain/migration/**/*.ts"
+        ],
+        "subscriber": [
+            "domain/subscriber/**/*.ts"
+        ],
+        "seeds": [
+            "domain/seed/**/*.ts"
+        ],
+        "factories": [
+            "domain/factory/**/*.ts"
+        ],
+        "cli": {
+            "entitiesDir": "domain/entity",
+            "migrationsDir": "domain/migration",
+            "subscribersDir": "domain/subscriber"
+        }
+    },
+    {
         "name": "test",
         "type": "postgres",
         "host": "postgres",

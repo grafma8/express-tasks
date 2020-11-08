@@ -1,7 +1,10 @@
-#!/bin/bash
-
+#!/bin/ash
 set -e
+
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+    CREATE DATABASE test_db;
+EOSQL
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "test_db" <<-EOSQL
     CREATE TABLE testing(
         id serial,
         name varchar(255),

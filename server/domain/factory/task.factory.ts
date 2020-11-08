@@ -1,13 +1,15 @@
 import Faker from "faker";
-import { getCustomRepository } from "typeorm";
+import { getCustomRepository, Connection } from "typeorm";
 import { define, factory } from "typeorm-seeding";
 import { Task } from "../entity/Task";
 import { User } from "../entity/User";
-import { TaskRepository } from "../repository/TaskRepository";
 import { UserRepository } from "../repository/UserRepository";
 
-define(Task, (faker: typeof Faker) => {
-  const task = getCustomRepository(TaskRepository).create();
+define(Task, (faker: typeof Faker, context?: {connection?: Connection}) => {
+  if (context?.connection === undefined) throw new Error('factory connection error')
+  const connection = context.connection
+
+  const task = new Task();
   task.name = faker.lorem.word();
   task.time_start = faker.date.past();
   task.time_end = faker.date.future();
@@ -15,7 +17,7 @@ define(Task, (faker: typeof Faker) => {
   task.type = 0;
   task.status = 0;
 
-  task.owner = factory(User)() as any;
+  task.owner = connection.getCustomRepository(UserRepository).findOne({user_id: 1}) as any;
 
   return task;
 });

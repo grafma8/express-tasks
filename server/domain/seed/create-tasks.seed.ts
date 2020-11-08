@@ -4,6 +4,6 @@ import { Task } from "../entity/Task";
 
 export default class CreateTasks implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<void> {
-    await factory(Task)({ roles: [] }).createMany(10);
+    await factory(Task)({ connection: connection }).createMany(10);
   }
 }
