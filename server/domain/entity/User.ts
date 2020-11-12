@@ -13,6 +13,18 @@ import { Task } from "./Task";
 import { Category } from "./Category";
 import bcrypt from "bcrypt";
 
+export enum UserType {
+  NORMAL = 0,
+  ADMIN = 100,
+}
+
+export enum UserStatus{
+  VERIFYING = 10,
+  ACTIVE = 20,
+  CANCELED = 30,
+  BANNED = 40
+}
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -33,13 +45,13 @@ export class User {
   password!: string;
 
   @Column({
-    default: 0,
+    default: UserType.NORMAL,
     type: "int2",
   })
-  type!: number;
+  type!: UserType;
 
-  @Column({ default: 0, type: "int2" })
-  status!: number;
+  @Column({ default: UserStatus.VERIFYING, type: "int2" })
+  status!: UserStatus;
 
   @OneToMany((type) => Task, (task) => task.owner)
   tasks!: Task[];

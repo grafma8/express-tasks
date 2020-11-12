@@ -14,6 +14,25 @@ import { User } from "./User";
 import { TaskHistory } from "./TaskHistory";
 import { Category } from "./Category";
 
+export enum TaskType {
+  ONCE = 10,
+  ONCE_SCHEDULED = 11,
+  EVERY_DAY = 20,
+  EVERY_WEEK = 30,
+  EVERY_2WEEK = 31,
+  EVERY_MONTH = 40,
+  EVERY_WEEKDAY = 50,
+  EVERY_WEEKEND = 51,
+  EVERY_YEAR = 52,
+}
+
+export enum TaskStatus {
+  CREATED = 10,
+  DONE = 20,
+  ARCHIVED = 30,
+  DELETED = 40,
+}
+
 @Entity()
 export class Task {
   @PrimaryGeneratedColumn()
@@ -40,14 +59,15 @@ export class Task {
 
   @Column({
     type: "int2",
+    default: TaskType.ONCE
   })
-  type!: number;
+  type!: TaskType;
 
   @Column({
     type: "int2",
-    default: 0,
+    default: TaskStatus.CREATED,
   })
-  status!: number;
+  status!: TaskStatus;
 
   @OneToMany((type) => TaskHistory, (task_history) => task_history.task)
   task_histories?: TaskHistory[];

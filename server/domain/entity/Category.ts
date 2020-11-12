@@ -12,6 +12,10 @@ import {
 import { User } from "./User";
 import { Task } from "./Task";
 
+export enum CategoryType {
+  DEFAULT = 0,
+}
+
 @Entity()
 export class Category {
   @PrimaryGeneratedColumn()
@@ -20,8 +24,10 @@ export class Category {
   @Column()
   name!: string;
 
-  @Column()
-  type!: number;
+  @Column({ default: CategoryType.DEFAULT })
+  type!: CategoryType;
+
+  // @TODO add category status
 
   @ManyToOne((type) => User, (owner) => owner.categories, { nullable: false })
   @JoinColumn({ name: "owner_id" })
