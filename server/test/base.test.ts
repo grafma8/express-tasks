@@ -57,8 +57,8 @@ describe("passport local strategy test", () => {
       let res = await agent.get("/login");
       const { window } = new JSDOM(res.text);
       const csrf = window.document.head
-        .querySelector('meta[name="csrf-token"]')!
-        .getAttribute("content");
+        .querySelector('meta[name="csrf-token"]')
+        ?.getAttribute("content");
       res = await agent.post("/login").send({ _csrf: csrf });
       expect(res.status).toBe(302);
       done();
@@ -68,8 +68,8 @@ describe("passport local strategy test", () => {
       let res = await agent.get("/login");
       const { window } = new JSDOM(res.text);
       const csrf = window.document.head
-        .querySelector('meta[name="csrf-token"]')!
-        .getAttribute("content");
+        .querySelector('meta[name="csrf-token"]')
+        ?.getAttribute("content");
       debugLogger.debug(`csrf: ${csrf}`);
       res = await agent
         .post("/login")
