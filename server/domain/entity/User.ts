@@ -9,6 +9,7 @@ import {
   BeforeUpdate,
 } from "typeorm";
 import { IsEmail, Min } from "class-validator";
+import { Exclude } from "class-transformer";
 import { Task } from "./Task";
 import { Category } from "./Category";
 import bcrypt from "bcrypt";
@@ -18,11 +19,11 @@ export enum UserType {
   ADMIN = 100,
 }
 
-export enum UserStatus{
+export enum UserStatus {
   VERIFYING = 10,
   ACTIVE = 20,
   CANCELED = 30,
-  BANNED = 40
+  BANNED = 40,
 }
 
 @Entity()
@@ -41,6 +42,7 @@ export class User {
   @Min(3)
   email!: string;
 
+  @Exclude()
   @Column()
   password!: string;
 
@@ -59,9 +61,11 @@ export class User {
   @OneToMany((type) => Category, (category) => category.owner)
   categories!: Category[];
 
+  @Exclude()
   @CreateDateColumn()
   created_at!: Date;
 
+  @Exclude()
   @UpdateDateColumn()
   updated_at!: Date;
 
@@ -78,7 +82,7 @@ export class User {
 
   @BeforeInsert()
   @BeforeUpdate()
-  hashPassword(): void {
+  _hashPassword(): void {
     this.password = bcrypt.hashSync(this.password, 10);
   }
 }
