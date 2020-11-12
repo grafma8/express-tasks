@@ -1,0 +1,17 @@
+extends ./templates/template.pug
+
+block title
+  title= title
+
+block content
+  h1= message 
+  form(method="POST" action="/login")
+    input(type="hidden" name="_csrf" value=csrfToken)
+    div
+      input(type="text" name="email")
+    div
+      input(type="text" name="password")
+    div
+      input(type="submit" name="login")
+
+block footer
