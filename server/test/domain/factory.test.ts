@@ -1,10 +1,5 @@
-import { Connection } from "typeorm";
-import {
-  useSeeding,
-  useRefreshDatabase,
-  tearDownDatabase,
-  factory,
-} from "typeorm-seeding";
+import { Connection, createConnection } from "typeorm";
+import { useSeeding, factory } from "typeorm-seeding";
 import { User } from "../../domain/entity/User";
 import { Task } from "../../domain/entity/Task";
 import { Category } from "../../domain/entity/Category";
@@ -13,14 +8,14 @@ import { TaskHistory } from "../../domain/entity/TaskHistory";
 describe("Factory Integration Test", () => {
   let connection: Connection;
   beforeAll(async (done) => {
-    connection = await useRefreshDatabase({ connection: "test" });
+    connection = await createConnection("test");
     await useSeeding();
     done();
   });
 
-  afterAll(async (done) => {
-    await tearDownDatabase();
-  });
+  // afterAll(async (done) => {
+  //   await tearDownDatabase();
+  // });
 
   it("should create a user with the entity factory", async (done) => {
     const createdUser = await factory(User)({
@@ -69,7 +64,9 @@ describe("Factory Integration Test", () => {
       .getRepository(TaskHistory)
       .findOne(createdTaskHistory.task_history_id);
     if (taskHistory) {
-      expect(createdTaskHistory.time_done.toISOString()).toBe(taskHistory.time_done.toISOString());
+      expect(createdTaskHistory.time_done.toISOString()).toBe(
+        taskHistory.time_done.toISOString()
+      );
     }
     done();
   });
