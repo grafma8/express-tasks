@@ -50,8 +50,9 @@
     "ts-node": "ts-node",
     "test": "jest --coverage",
     "test-app": "jest --coverage --verbose app.test.ts",
+    "migrate:generate": "ts-node $(npm bin)/typeorm migration:generate",
+    "migrate:run": "ts-node $(npm bin)/typeorm migration:run",
     "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
     "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
-    "seed:run-prod": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed --connection production"
   }
 }

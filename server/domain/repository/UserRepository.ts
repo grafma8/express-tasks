@@ -4,6 +4,6 @@ import { User } from "../entity/User";
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
   findByName(user_name: string) : Promise<User | undefined>{
-    return this.findOne({ user_name });
+    return this.findOne({ user_name: user_name });
   }
 }
