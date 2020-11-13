@@ -1,10 +1,10 @@
 extends ./templates/template.pug
 
 block title
-  title= title
+  title Login
 
 block content
-  h1= message 
+  h1 Login
   form(method="POST" action="/login")
     input(type="hidden" name="_csrf" value=csrfToken)
     div

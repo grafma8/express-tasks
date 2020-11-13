@@ -5,18 +5,17 @@ import { errorLogger, debugLogger } from "./log";
 import { getRepository, getCustomRepository } from "typeorm";
 import { UserRepository } from "../domain/repository/UserRepository";
 import { Request, Response, NextFunction } from "express";
-import { classToPlain } from "class-transformer";
+import { classToPlain, plainToClass } from "class-transformer";
 
-passport.serializeUser<any, any>((user, done) => {
-  debugLogger.debug(`serializing user: ${user}`);
+passport.serializeUser<any, any>((user: User, done) => {
+  debugLogger.debug("serializing user: ", user);
   done(null, user);
 });
 
-passport.deserializeUser<any, any>(async (id, done) => {
+passport.deserializeUser<any, any>(async (user: User, done) => {
   try {
-    debugLogger.debug(`deserializing user: ${id}`);
-    const user = await getRepository(User).findOne(id);
-    done(null, classToPlain(user));
+    debugLogger.debug("deserialize user: ", plainToClass(User, user));
+    done(null, plainToClass(User, user));
   } catch (err) {
     errorLogger.error(err);
     done(err);

@@ -39,7 +39,7 @@ app.use(
     cookie: { httpOnly: true, secure: false, maxAge: 60 * 60 * 1000 },
   })
 );
-app.use(csrf({ cookie: false }));
+app.use(csrf({ cookie: false, ignoreMethods: ["GET", "HEAD", "OPTIONS"] }));
 app.use(passport.initialize());
 app.use(passport.session());
 
