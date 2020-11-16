@@ -5,6 +5,7 @@ import { User } from "../domain/entity/User";
 import { UserRepository } from "../domain/repository/UserRepository";
 import { debugLogger } from "../utils/log";
 import { JSDOM } from "jsdom";
+import { AuthService } from "../services/AuthService";
 
 describe("passport local strategy test", () => {
   const test_email = "example@example.com";
@@ -18,6 +19,8 @@ describe("passport local strategy test", () => {
       user.user_name = "example_test";
       user.email = test_email;
       user.password = test_password;
+      const authService = new AuthService(user);
+      user.activation_token = await authService.generateUserActivationToken();
       await repo.save(user);
     }
     done();

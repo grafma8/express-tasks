@@ -6,6 +6,7 @@ import { getRepository, getCustomRepository } from "typeorm";
 import { UserRepository } from "../domain/repository/UserRepository";
 import { Request, Response, NextFunction } from "express";
 import { classToPlain, plainToClass } from "class-transformer";
+import { AuthService } from "../services/AuthService";
 
 passport.serializeUser<any, any>((user: User, done) => {
   debugLogger.debug("serializing user: ", user);
@@ -31,7 +32,7 @@ passport.use(
           email
         );
         if (!user) return done(null, false, { message: "Incorrect email" });
-        const isValidPassword = await User.comparePassword(
+        const isValidPassword = await AuthService.comparePassword(
           password,
           user!.password
         );

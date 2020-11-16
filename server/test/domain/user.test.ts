@@ -1,6 +1,7 @@
 import { Connection, createConnection } from "typeorm";
 import { User } from "../../domain/entity/User";
 import { UserRepository } from "../../domain/repository/UserRepository";
+import { AuthService } from "../../services/AuthService";
 import faker from "faker";
 
 describe("Factory Integration Test", () => {
@@ -24,9 +25,12 @@ describe("Factory Integration Test", () => {
     user.password = prepared_password;
     user.type = 0;
     user.status = 0;
+    const authService = new AuthService(user);
+    user.activation_token = await authService.generateUserActivationToken();
 
     const created = await connection.getRepository(User).save(user);
     expect(created.user_name).toBe(user.user_name);
+
     done();
   });
 
@@ -51,7 +55,7 @@ describe("Factory Integration Test", () => {
       .getCustomRepository(UserRepository)
       .findByEmail(prepared_email);
     if (user) {
-      const result = await User.comparePassword(
+      const result = await AuthService.comparePassword(
         prepared_password,
         user.password
       );

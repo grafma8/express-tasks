@@ -21,6 +21,7 @@ export enum UserType {
 
 export enum UserStatus {
   VERIFYING = 10,
+  // RESETTING_PASSWORD = 11,
   ACTIVE = 20,
   CANCELED = 30,
   BANNED = 40,
@@ -55,6 +56,10 @@ export class User {
   @Column({ default: UserStatus.VERIFYING, type: "int2" })
   status!: UserStatus;
 
+  @Exclude()
+  @Column()
+  activation_token!: string;
+
   @OneToMany((type) => Task, (task) => task.owner)
   tasks!: Task[];
 
@@ -69,20 +74,10 @@ export class User {
   @UpdateDateColumn()
   updated_at!: Date;
 
-  static async comparePassword(
-    passwd_str: string,
-    passwd_hash: string
-  ): Promise<boolean> {
-    return bcrypt.compare(passwd_str, passwd_hash);
-  }
-
-  // static async hashPassword(password: string): Promise<string> {
-  //   return bcrypt.hash(password, 10);
-  // }
-
   @BeforeInsert()
   @BeforeUpdate()
   _hashPassword(): void {
     this.password = bcrypt.hashSync(this.password, 10);
   }
+
 }
