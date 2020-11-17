@@ -10,13 +10,7 @@ export default class CreateTaskHistories implements Seeder {
       .map(async (taskHistory: TaskHistory) => {
         const task = await factory(Task)()
           .map(async (task: Task) => {
-            const user = await factory(User)()
-              .map(async (user: User) => {
-                const authService = new AuthService(user);
-                user.activation_token = await authService.generateUserActivationToken();
-                return user;
-              })
-              .create();
+            const user = await factory(User)().create();
             task.owner = user;
             return task;
           })

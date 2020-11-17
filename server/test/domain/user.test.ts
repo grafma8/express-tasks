@@ -25,8 +25,6 @@ describe("Factory Integration Test", () => {
     user.password = prepared_password;
     user.type = 0;
     user.status = 0;
-    const authService = new AuthService(user);
-    user.activation_token = await authService.generateUserActivationToken();
 
     const created = await connection.getRepository(User).save(user);
     expect(created.user_name).toBe(user.user_name);

@@ -56,10 +56,6 @@ export class User {
   @Column({ default: UserStatus.VERIFYING, type: "int2" })
   status!: UserStatus;
 
-  @Exclude()
-  @Column()
-  activation_token!: string;
-
   @OneToMany((type) => Task, (task) => task.owner)
   tasks!: Task[];
 

@@ -1,15 +1,65 @@
-import { getCustomRepository } from "typeorm";
-import { User } from "../domain/entity/User";
+import { getRepository, getConnection, Repository } from "typeorm";
+import { User, UserType, UserStatus } from "../domain/entity/User";
 import { UserRepository } from "../domain/repository/UserRepository";
+import { debugLogger, errorLogger } from "../utils/log";
+import { AuthService } from "./AuthService";
 
-class UserService {
-  repository: UserRepository;
+export class UserService {
+  repository: Repository<User>;
 
   constructor() {
-    this.repository = getCustomRepository(UserRepository);
+    this.repository = getRepository(User);
   }
 
+  async createUser(
+    user_name: string,
+    password: string,
+    email: string
+  ): Promise<User | false> {
+    const queryRunner = getConnection().createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    let user: User;
+    try {
+      user = queryRunner.manager.create(User, {
+        user_name: user_name,
+        password: password,
+        email: email,
+      });
+      user = await queryRunner.manager.save(user);
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      errorLogger.error(err);
+      await queryRunner.rollbackTransaction();
+      return false;
+    } finally {
+      await queryRunner.release();
+    }
+    debugLogger.debug(user);
+    return user;
+  }
 
+  async checkJWTTokenAndActivate(
+    token: string
+  ): Promise<User | false> {
+
+    const user_id = await AuthService.getUserIdFromToken(token);
+    if (!user_id) return false
+
+    const user = await this.repository.findOne({user_id: user_id});
+    if (!user) return false;
+
+    const authService = new AuthService(user);
+    const result = await authService.verifyActivationJWTToken(token);
+    if (!result) return false;
+
+    user.status = UserStatus.ACTIVE;
+    try {
+      await this.repository.save(user);
+    } catch (err) {
+      errorLogger.error(err);
+      return false;
+    }
+    return user;
+  }
 }
-
-export default UserService;

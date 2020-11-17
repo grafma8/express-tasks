@@ -19,8 +19,6 @@ describe("passport local strategy test", () => {
       user.user_name = "example_test";
       user.email = test_email;
       user.password = test_password;
-      const authService = new AuthService(user);
-      user.activation_token = await authService.generateUserActivationToken();
       await repo.save(user);
     }
     done();

@@ -23,6 +23,14 @@ export class AuthService {
     return bcrypt.compare(passwd_str, passwd_hash);
   }
 
+  public static async getUserIdFromToken(
+    token: string
+  ): Promise<number | false> {
+    const result = jwt.decode(token);
+    if (result == null || typeof result == "string") return false;
+    return result.user_id;
+  }
+
   private async _generateToken(
     payload: any,
     signOptions?: jwt.SignOptions | undefined
@@ -51,8 +59,8 @@ export class AuthService {
     return result;
   }
 
-  async generateUserActivationToken(): Promise<string> {
-    let user_id = -1
+  async generateActivationJWTToken(): Promise<string> {
+    let user_id = -1;
     if (this.user.user_id != null) user_id = this.user.user_id;
     return this._generateToken(
       { user_id: user_id },
@@ -60,7 +68,7 @@ export class AuthService {
     );
   }
 
-  async verifyUserActivationToken(
+  async verifyActivationJWTToken(
     token: string,
     verifyOptions?: jwt.VerifyOptions
   ): Promise<any | boolean> {
@@ -74,17 +82,4 @@ export class AuthService {
     return result;
   }
 
-  async updateUserActivationToken(): Promise<any | false> {
-    const token = await this.generateUserActivationToken();
-    
-    try {
-      await getRepository(User).update(this.user.user_id, {
-        activation_token: token,
-      });
-    } catch (err) {
-      errorLogger.error(err);
-      return false;
-    }
-    return token;
-  }
 }

@@ -8,14 +8,7 @@ export default class CreateCategories implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<void> {
     await factory(Category)()
       .map(async (category: Category) => {
-        const user: User = await factory(User)()
-          .map(async (user: User) => {
-            const authService = new AuthService(user);
-            user.activation_token = await authService.generateUserActivationToken();
-            return user;
-          })
-          .create();
-
+        const user: User = await factory(User)().create();
         category.owner = user;
         return category;
       })
