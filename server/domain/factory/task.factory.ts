@@ -5,10 +5,7 @@ import { Task } from "../entity/Task";
 import { User } from "../entity/User";
 import { UserRepository } from "../repository/UserRepository";
 
-define(Task, (faker: typeof Faker, context?: {connection?: Connection}) => {
-  if (context?.connection === undefined) throw new Error('factory connection error')
-  const connection = context.connection
-
+define(Task, (faker: typeof Faker, context?: {}) => {
   const task = new Task();
   task.name = faker.lorem.word();
   task.time_start = faker.date.past();
@@ -16,8 +13,6 @@ define(Task, (faker: typeof Faker, context?: {connection?: Connection}) => {
   task.time_remain = task.time_end.getTime() - task.time_start.getTime();
   task.type = 0;
   task.status = 0;
-
-  task.owner = connection.getCustomRepository(UserRepository).findOne({user_id: 1}) as any;
 
   return task;
 });
