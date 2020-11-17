@@ -4,7 +4,7 @@ import path from "path";
 import faker from "faker";
 import { getRepository, createConnection, Connection } from "typeorm";
 import { User } from "../../domain/entity/User";
-import {AuthService} from "../../services/AuthService";
+import { AuthService } from "../../services/AuthService";
 import { debugLogger } from "../../utils/log";
 
 describe("User func test", () => {
@@ -12,6 +12,7 @@ describe("User func test", () => {
   let authService: AuthService;
   let userRepository;
   let connection: Connection;
+  let saved: User;
 
   beforeAll(async (done) => {
     connection = await createConnection("default");
@@ -22,12 +23,14 @@ describe("User func test", () => {
       password: faker.internet.password(),
     });
     authService = new AuthService(user);
-    done()
+    user.activation_token = await authService.generateUserActivationToken();
+    saved = await userRepository.save(user);
+    done();
   });
-  
+
   afterAll(async (done) => {
     await connection.close();
-  })
+  });
 
   it("should create good activation_token", async (done) => {
     const token = await authService.generateUserActivationToken();
@@ -45,7 +48,7 @@ describe("User func test", () => {
 
   it("should falsy with invalid sign", async (done) => {
     const token = await authService.updateUserActivationToken();
-    if (!token ) throw new Error()
+    if (!token) throw new Error();
     const nextChar = String.fromCharCode(token.charCodeAt(-1) + 1);
     let invalid_sign;
     if (nextChar.charCodeAt(0) >= 52) {
