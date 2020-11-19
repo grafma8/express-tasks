@@ -29,17 +29,13 @@ export const postRegister = async (
   const password = req.body.password;
   // @todo input validation
   const userService = new UserService();
-  const user = userService.createUser(
-    user_name,
-    email,
-    password
-  );
+  const user = userService.createUser(user_name, email, password);
   if (!user) {
-    errorLogger.error("user registration failed.")
-    res.redirect("/register")
+    errorLogger.error("user registration failed.");
+    res.redirect("/register");
   }
   // @todo send mail verification
-  res.redirect("/register/mail_start_complete")
+  res.redirect("/register/mail_start_complete");
 };
 
 /**
@@ -50,7 +46,7 @@ export const getRegisterMailStartComplete = async (
   res: Response,
   next: NextFunction
 ) => {
-  res.render("register/mail_start_complete", )
+  res.render("register/mail_start_complete");
 };
 
 /**
@@ -62,12 +58,16 @@ export const getRegisterStart = async (
   next: NextFunction
 ) => {
   const token = req.params.token;
-  if (!token) {res.redirect("/register")}
+  if (!token) {
+    res.redirect("/register");
+  }
 
-  const userService = new UserService()
-  const result = await userService.checkJWTTokenAndActivate(token)
-  if (!result) {res.redirect("/register")}
-  res.redirect("/register/complete")
+  const userService = new UserService();
+  const result = await userService.checkJWTTokenAndActivate(token);
+  if (!result) {
+    res.redirect("/register");
+  }
+  res.redirect("/register/complete");
 };
 
 /**
@@ -78,5 +78,5 @@ export const getRegisterComplete = async (
   res: Response,
   next: NextFunction
 ) => {
-  res.render("register/complete")
+  res.render("register/complete");
 };
