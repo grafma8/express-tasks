@@ -5,7 +5,7 @@ import { Task } from "../entity/Task";
 import { User } from "../entity/User";
 import { UserRepository } from "../repository/UserRepository";
 
-define(Task, (faker: typeof Faker, context?: {}) => {
+define(Task, (faker: typeof Faker, context?: Record<string, unknown>) => {
   const task = new Task();
   task.name = faker.lorem.word();
   task.time_start = faker.date.past();

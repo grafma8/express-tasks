@@ -5,7 +5,7 @@ import { User } from "../entity/User";
 import { UserRepository } from "../repository/UserRepository";
 import { AuthService } from "../../services/AuthService";
 
-define(User, (faker: typeof Faker, context?: {}) => {
+define(User, (faker: typeof Faker, context?: Record<string, unknown>) => {
   const userName = faker.internet.userName();
   const email = faker.internet.email();
   const password = faker.internet.password();
