@@ -1,7 +1,7 @@
 import { createTransport, Transporter } from "nodemailer";
 import { errorLogger, debugLogger } from "./log";
 
-class Mailer {
+export class Mailer {
   private static SMTP_HOST = process.env.SMTP_HOST;
   private static SMTP_PORT: number = parseInt(process.env.SMTP_PORT || "587");
   private static SMTP_AUTH_USER = process.env.SMTP_AUTH_USER;
@@ -40,5 +40,3 @@ class Mailer {
     Mailer.sendWithSmtp(target, subject, content);
   }
 }
-
-export default Mailer;

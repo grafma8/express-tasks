@@ -1,7 +1,7 @@
 import { config } from "dotenv";
 config({ path: "../.env" });
 
-import Mailer from "../utils/mail";
+import {Mailer} from "../utils/mail";
 
 describe("Mail feature test", () => {
   const TEST_MAIL_TO = process.env.TEST_MAIL_TO;
