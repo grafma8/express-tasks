@@ -4,6 +4,7 @@ block title
   title Login
 
 block content
+  include ./include/_flash.pug
   h1 Login
   form(method="POST" action="/login")
     input(type="hidden" name="_csrf" value=csrfToken)
