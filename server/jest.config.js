@@ -5,5 +5,8 @@ module.exports = {
   testMatch: [
     "**/test/**/*.test.ts",
     "**/test/**/*.spec.ts"
-  ]
+  ],
+  moduleNameMapper: {
+    "^entity/(.*)": "<rootDir>/domain/entity/$1"
+  }
 };
