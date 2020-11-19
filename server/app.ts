@@ -8,6 +8,7 @@ import csrf from "csurf";
 import session from "express-session";
 import favicon from "serve-favicon";
 import serveStatic from "serve-static";
+import flash from "express-flash";
 import { connectLogger } from "log4js";
 import { systemLogger, accessLogger, errorLogger } from "./utils/log";
 import passport from "passport";
@@ -30,6 +31,11 @@ app.use(connectLogger(accessLogger, {}));
 app.use(favicon("./public/assets/img/favicon.ico"));
 app.use(serveStatic(APP_PUBLIC_PATH));
 
+// declare module "express-session" {
+//     export interface SessionData {
+//       returnTo?: string;
+//     }
+// }
 app.use(
   session({
     secret: "secretpass",
@@ -42,6 +48,18 @@ app.use(
 app.use(csrf({ cookie: false, ignoreMethods: ["GET", "HEAD", "OPTIONS"] }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
+app.use((req: Request, res: Response, next: NextFunction) => {
+  // After successful login, redirect back to the intended page
+  if (!req.user && req.path !== "/login" && req.path !== "/signup") {
+    // !req.path.match(/^\/auth/) &&
+    // !req.path.match(/\./)) {
+    req.session.returnTo = req.path;
+  } else if (req.user && req.path == "/account") {
+    req.session.returnTo = req.path;
+  }
+  next();
+});
 
 app.set("APP_PORT", APP_PORT);
 app.set("view engine", "pug");

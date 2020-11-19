@@ -604,6 +604,13 @@
     "@types/express" "*"
     "@types/express-serve-static-core" "*"
 
+"@types/express-flash@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@types/express-flash/-/express-flash-0.0.2.tgz#9389366e91c23bc5131c137a279c9d8d53f2d68f"
+  integrity sha512-1l0s3YiZpMkWZ/65S4iSOLOnI7bYNDgnxx54nw5eA2pWOZ7Vvc7PpDv6iJq0bB7EBusoVWkzd+RV4r/nLY4/HA==
+  dependencies:
+    "@types/express" "*"
+
 "@types/express-serve-static-core@*":
   version "4.17.13"
   resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.17.13.tgz#d9af025e925fc8b089be37423b8d1eac781be084"
@@ -613,13 +620,12 @@
     "@types/qs" "*"
     "@types/range-parser" "*"
 
-"@types/express-session@^1.17.0":
-  version "1.17.0"
-  resolved "https://registry.yarnpkg.com/@types/express-session/-/express-session-1.17.0.tgz#770daf81368f6278e3e40dd894e1e52abbdca0cd"
-  integrity sha512-OQEHeBFE1UhChVIBhRh9qElHUvTp4BzKKHxMDkGHT7WuYk5eL93hPG7D8YAIkoBSbhNEY0RjreF15zn+U0eLjA==
+"@types/express-session@^1.17.2":
+  version "1.17.2"
+  resolved "https://registry.yarnpkg.com/@types/express-session/-/express-session-1.17.2.tgz#ed6a36dd9f267c7fef86004f653bfb9b5cea3c21"
+  integrity sha512-QRm/fUuvr/BAosL9CvK351SDQP7wpD8+h3S8ZEE/8IvHJ/ZqHrjZbjx/flYfazyPw7yNi9O5fbjFZbh0vZ1ccg==
   dependencies:
     "@types/express" "*"
-    "@types/node" "*"
 
 "@types/express@*", "@types/express@^4.17.8":
   version "4.17.8"
@@ -1610,6 +1616,11 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
 
+connect-flash@0.1.x:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/connect-flash/-/connect-flash-0.1.1.tgz#d8630f26d95a7f851f9956b1e8cc6732f3b6aa30"
+  integrity sha1-2GMPJtlaf4UfmVax6MxnMvO2qjA=
+
 console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"
@@ -2204,6 +2215,13 @@ expect@^26.5.2:
     jest-message-util "^26.5.2"
     jest-regex-util "^26.0.0"
 
+express-flash@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/express-flash/-/express-flash-0.0.2.tgz#23d1a8bcf3f90d707928e489f96869ecad0acda2"
+  integrity sha1-I9GovPP5DXB5KOSJ+Whp7K0KzaI=
+  dependencies:
+    connect-flash "0.1.x"
+
 express-session@^1.17.1:
   version "1.17.1"
   resolved "https://registry.yarnpkg.com/express-session/-/express-session-1.17.1.tgz#36ecbc7034566d38c8509885c044d461c11bf357"
@@ -2217,6 +2235,14 @@ express-session@^1.17.1:
     parseurl "~1.3.3"
     safe-buffer "5.2.0"
     uid-safe "~2.1.5"
+
+express-validator@^6.6.1:
+  version "6.6.1"
+  resolved "https://registry.yarnpkg.com/express-validator/-/express-validator-6.6.1.tgz#c53046f615d27fcb78be786e018dcd60bd9c6c5c"
+  integrity sha512-+MrZKJ3eGYXkNF9p9Zf7MS7NkPJFg9MDYATU5c80Cf4F62JdLBIjWxy6481tRC0y1NnC9cgOw8FuN364bWaGhA==
+  dependencies:
+    lodash "^4.17.19"
+    validator "^13.1.1"
 
 express@^4.17.1:
   version "4.17.1"
@@ -6052,6 +6078,11 @@ validator@13.0.0:
   version "13.0.0"
   resolved "https://registry.yarnpkg.com/validator/-/validator-13.0.0.tgz#0fb6c6bb5218ea23d368a8347e6d0f5a70e3bcab"
   integrity sha512-anYx5fURbgF04lQV18nEQWZ/3wHGnxiKdG4aL8J+jEDsm98n/sU/bey+tYk6tnGJzm7ioh5FoqrAiQ6m03IgaA==
+
+validator@^13.1.1:
+  version "13.1.17"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-13.1.17.tgz#ad677736950adddd3c37209484a6b2e0966579ad"
+  integrity sha512-zL5QBoemJ3jYFb2/j38y7ljhwYGXVLUp8H6W1nVxadnAOvUOytec+L7BHh1oBQ82/TzWXHd+GSaxUWp4lROkLg==
 
 vary@~1.1.2:
   version "1.1.2"

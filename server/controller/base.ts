@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import passport from "passport";
 import { User } from "../domain/entity/User";
-import { debugLogger } from "../utils/log";
+import { debugLogger, errorLogger } from "../utils/log";
+import { body, validationResult } from "express-validator";
 
 export const getIndex = async (req: Request, res: Response): Promise<void> => {
   res.render("index", { csrfToken: req.csrfToken() });
@@ -22,12 +23,20 @@ export const postLogin = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
+  await body("email", "Email is not valid").isEmail().run(req);
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    req.flash("errors", errors.array())
+    errorLogger.error(errors.array());
+  }
+
   passport.authenticate("local", (err: Error, user: any, info: any) => {
     if (err) return next(err);
     if (!user) return res.redirect("/login");
     req.logIn(user, (err) => {
       if (err) return next(err);
       res.redirect(req.session?.returnTo || "/");
+      // res.redirect("/");
     });
   })(req, res, next);
 };
