@@ -12,7 +12,7 @@ export const getPing = async (req: Request, res: Response): Promise<void> => {
   res.status(200).send("pong");
 };
 
-// @TODO 全てapiに
+// @TODO apiに
 export const getLogin = async (req: Request, res: Response): Promise<void> => {
   if (req.user) return res.redirect("/");
   res.render("login", { csrfToken: req.csrfToken() });
@@ -23,11 +23,13 @@ export const postLogin = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  await body("email", "Email is not valid").isEmail().run(req);
+  await body("email", "Email is not valid").notEmpty().isEmail().run(req);
+  await body("password", "Password is not valid").notEmpty().run(req);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     req.flash("errors", errors.array())
     errorLogger.error(errors.array());
+    return res.redirect("/login")
   }
 
   passport.authenticate("local", (err: Error, user: any, info: any) => {

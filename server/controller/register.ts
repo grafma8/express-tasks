@@ -4,6 +4,8 @@ import { User } from "../domain/entity/User";
 import { debugLogger, errorLogger } from "../utils/log";
 import { AuthService } from "../services/AuthService";
 import { UserService } from "../services/UserService";
+import { body, validationResult } from "express-validator";
+import { Mailer } from "../utils/mail";
 
 /**
  * route GET /register
@@ -24,23 +26,56 @@ export const postRegister = async (
   res: Response,
   next: NextFunction
 ) => {
+  await body("user_name", "Username is not valid").notEmpty().run(req);
+  await body("user_name", "Username length is not valid").isLength({ min: 3 }).run(req);
+  await body("email", "Email is not valid")
+    .notEmpty()
+    .isEmail()
+    .custom(async (value) => {
+      const userService = new UserService();
+      const isEmailExists = await userService.isEmailExists(value);
+      if (isEmailExists) throw new Error("Already registered email");
+      return true;
+    })
+    .run(req);
+  await body("password", "Password is not valid")
+    .notEmpty()
+    .isLength({ min: 6 })
+    .run(req);
+  await body("password_confirm", "Password confirm is not valid")
+    .notEmpty()
+    .custom((value, { req }) => {
+      if (value !== req.body.password)
+        throw new Error("Password confirmation does not match password");
+      return true;
+    })
+    .run(req);
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    req.flash("errors", errors.array());
+    errorLogger.error(errors.array());
+    return res.redirect("/register");
+  }
+
   const user_name = req.body.user_name;
   const email = req.body.email;
   const password = req.body.password;
-  // @todo input validation
   const userService = new UserService();
-  const user = userService.createUser(user_name, email, password);
+  const user = await userService.createUser(user_name, email, password);
   if (!user) {
     errorLogger.error("user registration failed.");
-    res.redirect("/register");
+    return res.redirect("/register");
   }
-  // @todo send mail verification
+
+  const authService = new AuthService(user);
+  const token = await authService.generateActivationJWTToken()
+  Mailer.sendEmailVerificationMail(email, user_name, token);
   res.redirect("/register/mail_start_complete");
 };
 
 /**
-* @route GET /register/mail_start_complete
-*/
+ * @route GET /register/mail_start_complete
+ */
 export const getRegisterMailStartComplete = async (
   req: Request,
   res: Response,
@@ -50,29 +85,29 @@ export const getRegisterMailStartComplete = async (
 };
 
 /**
-* @route GET /register/start/:token
-*/
+ * @route GET /register/start/:token
+ */
 export const getRegisterStart = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const token = req.params.token;
-  if (!token) {
-    res.redirect("/register");
+  const token = req.query.token;
+  if (typeof token !== "string") {
+    return res.redirect("/register");
   }
 
   const userService = new UserService();
   const result = await userService.checkJWTTokenAndActivate(token);
   if (!result) {
-    res.redirect("/register");
+    return res.redirect("/register");
   }
   res.redirect("/register/complete");
 };
 
 /**
-* @route GET /register/complete
-*/
+ * @route GET /register/complete
+ */
 export const getRegisterComplete = async (
   req: Request,
   res: Response,

@@ -28,3 +28,9 @@ if (!process.env.JWT_SECRET_PASS) {
   throw new Error;
 }
 export const JWT_SECRET_PASS: string = process.env.JWT_SECRET_PASS;
+
+if (!process.env.APP_HOST_URL) {
+  errorLogger.error("Config load error: APP_HOST_URL");
+  throw new Error;
+}
+export const APP_HOST_URL: string = process.env.APP_HOST_URL;

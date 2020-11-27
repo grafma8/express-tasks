@@ -1,4 +1,4 @@
-import { getRepository, getConnection, Repository } from "typeorm";
+import { getRepository,getCustomRepository, getConnection, Repository } from "typeorm";
 import { User, UserType, UserStatus } from "../domain/entity/User";
 import { UserRepository } from "../domain/repository/UserRepository";
 import { debugLogger, errorLogger } from "../utils/log";
@@ -13,8 +13,8 @@ export class UserService {
 
   async createUser(
     user_name: string,
-    password: string,
-    email: string
+    email: string,
+    password: string
   ): Promise<User | false> {
     const queryRunner = getConnection().createQueryRunner();
     await queryRunner.connect();
@@ -61,5 +61,17 @@ export class UserService {
       return false;
     }
     return user;
+  }
+
+  /**
+  * Check whether same email has been registered or not
+  * @param {string} email
+  * @param {boolean} - whether exists or not
+  */
+  async isEmailExists(email: string): Promise<boolean> {
+    const userCustomRepository = getCustomRepository(UserRepository);
+    const user = await userCustomRepository.findByEmail(email);
+    debugLogger.debug(email, user, user != null);
+    return user != null;
   }
 }

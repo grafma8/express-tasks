@@ -32,7 +32,7 @@ passport.use(
           email
         );
         if (!user) return done(null, false, { message: "Incorrect email" });
-        const isValidPassword = await AuthService.comparePassword(
+        const isValidPassword = await AuthService.compareHashAndPassword(
           password,
           user!.password
         );

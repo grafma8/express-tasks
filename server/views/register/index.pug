@@ -1,0 +1,27 @@
+extends /templates/template.pug
+
+block title
+  title Registration
+
+block content
+  include /include/_flash.pug
+  div
+    h1 Register
+    form(method="POST" action="/register")
+      input(type="hidden" name="_csrf" value=csrfToken)
+      div.form-group
+        label(for="user_name") Username
+        input.form-control(type="text" name="user_name")
+      div.form-group
+        label(for="email") Email
+        input.form-control(type="text" name="email")
+      div.form-group
+        label(for="password") Password
+        input.form-control(type="password" name="password")
+      div.form-group
+        label(for="password_confirm") Password Confirm
+        input.form-control(type="password" name="password_confirm")
+      div
+        button.btn.btn-primary(type="submit" name="register") Send
+
+block footer

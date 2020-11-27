@@ -6,6 +6,7 @@ import { UserRepository } from "../domain/repository/UserRepository";
 import { debugLogger } from "../utils/log";
 import { JSDOM } from "jsdom";
 import { AuthService } from "../services/AuthService";
+import { UserService } from "../services/UserService";
 
 describe("passport local strategy test", () => {
   const test_email = "example@example.com";
@@ -13,8 +14,9 @@ describe("passport local strategy test", () => {
   beforeAll(async (done) => {
     await createConnection("default");
     const repo = getCustomRepository(UserRepository);
-    const isExists = await repo.isExists(test_email);
-    if (!isExists) {
+    const userService = new UserService()
+    const isEmailExists = await userService.isEmailExists(test_email);
+    if (!isEmailExists) {
       const user = new User();
       user.user_name = "example_test";
       user.email = test_email;

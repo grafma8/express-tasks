@@ -12,14 +12,4 @@ export class UserRepository extends Repository<User> {
   }
 
 
-  // service funcs
-  /**
-  * Check whether same email has been registered or not
-  * @param {string} email
-  * @param {boolean} - whether exists or not
-  */
-  async isExists(email: string): Promise<boolean | undefined> {
-    const user = await this.findByEmail(email);
-    return user != null;
-  }
 }

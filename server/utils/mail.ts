@@ -1,5 +1,6 @@
 import { createTransport, Transporter } from "nodemailer";
 import { errorLogger, debugLogger } from "./log";
+import {APP_HOST_URL} from "../config/appConstants"
 
 export class Mailer {
   private static SMTP_HOST = process.env.SMTP_HOST;
@@ -38,5 +39,20 @@ export class Mailer {
 
   public static async send(target: string, subject: string, content: string): Promise<any> {
     Mailer.sendWithSmtp(target, subject, content);
+  }
+
+  public static async sendEmailVerificationMail(target_email: string, target_name: string, activation_token: string): Promise<any> {
+    const subject = "Email Address Verification";
+    const content = `
+      Hi ${target_name},<br>
+      <br>
+      Welcome.<br>
+      <br>
+      To activate your account, click on the following link:<br>
+      <a href="${APP_HOST_URL}/register/start/?token=${activation_token}">${APP_HOST_URL}/register/start/?token=${activation_token}</a><br>
+      <br>
+      Thanks, From ~~~ support.
+    `;
+    Mailer.send(target_email, subject, content);
   }
 }

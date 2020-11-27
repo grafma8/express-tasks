@@ -16,7 +16,7 @@ export class AuthService {
     this.user = user;
   }
 
-  public static async comparePassword(
+  public static async compareHashAndPassword(
     passwd_str: string,
     passwd_hash: string
   ): Promise<boolean> {

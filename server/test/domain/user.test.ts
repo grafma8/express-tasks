@@ -3,6 +3,7 @@ import { User } from "../../domain/entity/User";
 import { UserRepository } from "../../domain/repository/UserRepository";
 import { AuthService } from "../../services/AuthService";
 import faker from "faker";
+import { UserService } from "../../services/UserService";
 
 describe("Factory Integration Test", () => {
   let connection: Connection;
@@ -33,10 +34,9 @@ describe("Factory Integration Test", () => {
   });
 
   it("should not validate existing user", async (done) => {
-    const isExists = await connection
-      .getCustomRepository(UserRepository)
-      .isExists(prepared_email);
-    expect(isExists).toBe(true);
+    const userService = new UserService();
+    const isEmailExists = await userService.isEmailExists(prepared_email);
+    expect(isEmailExists).toBe(true);
     done();
   });
 
@@ -53,7 +53,7 @@ describe("Factory Integration Test", () => {
       .getCustomRepository(UserRepository)
       .findByEmail(prepared_email);
     if (user) {
-      const result = await AuthService.comparePassword(
+      const result = await AuthService.compareHashAndPassword(
         prepared_password,
         user.password
       );

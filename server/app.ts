@@ -16,6 +16,7 @@ import * as passportConfig from "./utils/passport";
 
 import * as baseController from "./controller/base";
 import * as userController from "./controller/user";
+import * as registerController from "./controller/register";
 
 const APP_PORT = process.env.APP_PORT || 3000;
 const APP_PUBLIC_PATH = process.env.APP_PUBLIC_PATH || "./public";
@@ -75,11 +76,16 @@ routerBase.get("/login", baseController.getLogin);
 routerBase.post("/login", baseController.postLogin);
 routerBase.get("/logout", baseController.getLogout);
 
+routerBase.get("/register", registerController.getRegister)
+routerBase.post("/register", registerController.postRegister)
+routerBase.get("/register/start", registerController.getRegisterStart)
+
 router.get(
   API_BASE_V1 + "/users",
   passportConfig.isAuthenticated,
   userController.getUsers
 );
+
 
 // errors
 app.use((err: Error, req: Request, res: Response, next: NextFunction): void => {
