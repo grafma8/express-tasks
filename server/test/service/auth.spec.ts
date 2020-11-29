@@ -27,8 +27,11 @@ describe("User func test", () => {
     done();
   });
 
+  beforeEach(async (done) => {done()})
+
   afterAll(async (done) => {
     await connection.close();
+    done();
   });
 
   it("should create good activation_token", async (done) => {

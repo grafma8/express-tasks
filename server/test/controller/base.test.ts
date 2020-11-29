@@ -1,12 +1,12 @@
 import supertest from "supertest";
-import app from "../app";
+import app from "../../app";
 import { createConnection, getCustomRepository } from "typeorm";
-import { User } from "../domain/entity/User";
-import { UserRepository } from "../domain/repository/UserRepository";
-import { debugLogger } from "../utils/log";
+import { User } from "../../domain/entity/User";
+import { UserRepository } from "../../domain/repository/UserRepository";
+import { debugLogger } from "../../utils/log";
 import { JSDOM } from "jsdom";
-import { AuthService } from "../services/AuthService";
-import { UserService } from "../services/UserService";
+import { AuthService } from "../../services/AuthService";
+import { UserService } from "../../services/UserService";
 
 describe("passport local strategy test", () => {
   const test_email = "example@example.com";
@@ -14,7 +14,7 @@ describe("passport local strategy test", () => {
   beforeAll(async (done) => {
     await createConnection("default");
     const repo = getCustomRepository(UserRepository);
-    const userService = new UserService()
+    const userService = new UserService();
     const isEmailExists = await userService.isEmailExists(test_email);
     if (!isEmailExists) {
       const user = new User();
@@ -23,6 +23,11 @@ describe("passport local strategy test", () => {
       user.password = test_password;
       await repo.save(user);
     }
+    done();
+  });
+
+  beforeEach(async (done) => {
+    jest.useFakeTimers();
     done();
   });
 

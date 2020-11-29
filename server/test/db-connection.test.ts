@@ -1,6 +1,10 @@
 import { createConnection } from "typeorm";
 
 describe("Factory Integration Test", () => {
+  beforeEach(async (done) => {
+    // jest.useFakeTimers();
+    done();
+  });
   it("should create default db connection", async (done) => {
     const connection = await createConnection("default");
     expect(connection.options.name).toBe("default");

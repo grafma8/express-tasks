@@ -10,14 +10,21 @@ describe("Factory Integration Test", () => {
   let prepared_email: string;
   let prepared_password: string;
   beforeAll(async (done) => {
-    connection = await createConnection("test");
+    connection = await createConnection("default");
     prepared_email = faker.internet.email();
     prepared_password = faker.internet.password();
     done();
   });
 
-  // afterAll(async (done) => {
-  // });
+  beforeEach(async (done) => {
+    // jest.useFakeTimers();
+    done();
+  });
+
+  afterAll(async (done) => {
+    await connection.close();
+    done();
+  });
 
   it("should register a user", async (done) => {
     const user = connection.getRepository(User).create();

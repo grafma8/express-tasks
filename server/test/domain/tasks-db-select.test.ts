@@ -12,8 +12,14 @@ describe("Sample Tasks Test", () => {
     done();
   });
 
+  beforeEach(async (done) => {
+    // jest.useFakeTimers();
+    done();
+  });
+
   afterAll(async (done) => {
     await connection.close();
+    done();
   });
 
   it("should can select multiple users", async (done) => {
