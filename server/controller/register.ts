@@ -70,18 +70,18 @@ export const postRegister = async (
   const authService = new AuthService(user);
   const token = await authService.generateActivationJWTToken()
   Mailer.sendEmailVerificationMail(email, user_name, token);
-  res.redirect("/register/mail_start_complete");
+  res.redirect("/register/mail_complete");
 };
 
 /**
- * @route GET /register/mail_start_complete
+ * @route GET /register/mail_complete
  */
-export const getRegisterMailStartComplete = async (
+export const getRegisterMailComplete = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  res.render("register/mail_start_complete");
+  res.render("register/mail_complete");
 };
 
 /**

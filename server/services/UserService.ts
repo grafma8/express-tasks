@@ -71,7 +71,6 @@ export class UserService {
   async isEmailExists(email: string): Promise<boolean> {
     const userCustomRepository = getCustomRepository(UserRepository);
     const user = await userCustomRepository.findByEmail(email);
-    debugLogger.debug(email, user, user != null);
     return user != null;
   }
 }

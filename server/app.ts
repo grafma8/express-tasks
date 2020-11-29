@@ -78,7 +78,9 @@ routerBase.get("/logout", baseController.getLogout);
 
 routerBase.get("/register", registerController.getRegister)
 routerBase.post("/register", registerController.postRegister)
+routerBase.get("/register/mail_complete", registerController.getRegisterMailComplete)
 routerBase.get("/register/start", registerController.getRegisterStart)
+routerBase.get("/register/complete", registerController.getRegisterComplete)
 
 router.get(
   API_BASE_V1 + "/users",
