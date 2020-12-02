@@ -27,7 +27,7 @@ services:
             - POSTGRES_PASSWORD=${DB_POSTGRES_PASSWORD}
             - POSTGRES_DB=${DB_POSTGRES_DB_NAME}
         volumes:
-            - ./docker/postgres/tmp-postgres:/var/lib/postgresql/data
+            - postgres-db:/var/lib/postgresql/data
             - ./docker/postgres/initdb.d:/docker-entrypoint-initdb.d
         ports:
             - 5432:5432
@@ -59,9 +59,5 @@ services:
             - express-tasks
 networks:
     express-tasks:
-# volumes:
-#    postgres-db:
-#        driver_opts:
-#            type: none
-#            device: ./tmp-postgres
-#            o: bind
+volumes:
+   postgres-db:
