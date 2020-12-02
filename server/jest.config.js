@@ -8,5 +8,9 @@ module.exports = {
   ],
   moduleNameMapper: {
     "^entity/(.*)": "<rootDir>/domain/entity/$1"
-  }
+  },
+  coveragePathIgnorePatterns: [
+    "node_modules",
+    "domain/migration"
+  ]
 };
