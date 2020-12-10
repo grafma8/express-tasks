@@ -27,7 +27,9 @@ export const postRegister = async (
   next: NextFunction
 ) => {
   await body("user_name", "Username is not valid").notEmpty().run(req);
-  await body("user_name", "Username length is not valid").isLength({ min: 3 }).run(req);
+  await body("user_name", "Username length is not valid")
+    .isLength({ min: 3 })
+    .run(req);
   await body("email", "Email is not valid")
     .notEmpty()
     .isEmail()
@@ -57,19 +59,23 @@ export const postRegister = async (
     return res.redirect("/register");
   }
 
-  const user_name = req.body.user_name;
+  const userName = req.body.user_name;
   const email = req.body.email;
   const password = req.body.password;
   const userService = new UserService();
-  const user = await userService.createUser(user_name, email, password);
+  const user = await userService.create({
+    user_name: userName,
+    email: email,
+    password: password,
+  });
   if (!user) {
     errorLogger.error("user registration failed.");
     return res.redirect("/register");
   }
 
   const authService = new AuthService(user);
-  const token = await authService.generateActivationJWTToken()
-  Mailer.sendEmailVerificationMail(email, user_name, token);
+  const token = await authService.generateActivationJWTToken();
+  Mailer.sendEmailVerificationMail(email, userName, token);
   res.redirect("/register/mail_complete");
 };
 
