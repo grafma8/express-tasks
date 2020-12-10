@@ -45,8 +45,7 @@ describe("UserService", () => {
   });
 
   it("should find all users", async (done) => {
-    const userService = new UserService();
-    const result = await userService.findAll({
+    const result = await UserService.findAll({
       page: 1,
       pageSize: 10,
       status: UserStatus.VERIFYING,

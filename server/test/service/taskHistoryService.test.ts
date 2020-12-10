@@ -44,7 +44,7 @@ describe("TaskHistoryService", () => {
   });
 
   it("should find all task histories", async (done) => {
-    const result = await taskHistoryService.findAll({
+    const result = await TaskHistoryService.findAll({
       page: 1,
       pageSize: 10,
     });

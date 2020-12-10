@@ -39,7 +39,7 @@ describe("CategoryService", () => {
   });
 
   it("should find all categories", async (done) => {
-    const result = await categoryService.findAll({
+    const result = await CategoryService.findAll({
       page: 1,
       pageSize: 10,
       categoryType: CategoryType.DEFAULT,

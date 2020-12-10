@@ -38,7 +38,7 @@ describe("TaskService", () => {
   });
 
   it("should find all tasks", async (done) => {
-    const result = await taskService.findAll({
+    const result = await TaskService.findAll({
       page: 1,
       pageSize: 10,
       status: TaskStatus.CREATED,

@@ -54,7 +54,7 @@ export class UserService {
     return user != null;
   }
 
-  async findAll(queryParams: any = {}): Promise<[User[], number]> {
+  static async findAll(queryParams: any = {}): Promise<[User[], number]> {
     const {
       page = 1,
       pageSize = 10,
@@ -62,7 +62,7 @@ export class UserService {
       userType,
       ...otherParams
     } = queryParams;
-    const query = this.userRepository
+    const query = getCustomRepository(UserRepository)
       .createQueryBuilder("user")
       .orderBy("user.created_at", "DESC")
       .offset((page - 1) * pageSize)

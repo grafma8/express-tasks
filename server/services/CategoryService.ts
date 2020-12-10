@@ -26,14 +26,14 @@ export class CategoryService {
     return category;
   }
 
-  async findAll(queryParams: any = {}): Promise<[Category[], number]> {
+  static async findAll(queryParams: any = {}): Promise<[Category[], number]> {
     const {
       page = 1,
       pageSize = 10,
       categoryType = CategoryType.DEFAULT,
       ...otherParams
     } = queryParams;
-    const query = this.categoryRepository
+    const query = getCustomRepository(CategoryRepository)
       .createQueryBuilder("category")
       .orderBy("category.created_at", "DESC")
       .offset((page - 1) * pageSize)

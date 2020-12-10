@@ -42,7 +42,7 @@ export class TaskService {
     return task;
   }
 
-  async findAll(queryParams: any = {}): Promise<[Task[], number]> {
+  static async findAll(queryParams: any = {}): Promise<[Task[], number]> {
     const {
       page = 1,
       pageSize = 10,
@@ -50,7 +50,7 @@ export class TaskService {
       taskType,
       ...otherParams
     } = queryParams;
-    const query = this.taskRepository
+    const query = getCustomRepository(TaskRepository)
       .createQueryBuilder("task")
       .orderBy("task.created_at", "DESC")
       .offset((page - 1) * pageSize)

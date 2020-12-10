@@ -36,9 +36,9 @@ export class TaskHistoryService {
     return taskHistory;
   }
 
-  async findAll(queryParams: any = {}): Promise<[TaskHistory[], number]> {
+  static async findAll(queryParams: any = {}): Promise<[TaskHistory[], number]> {
     const { page = 1, pageSize = 10, ...otherParams } = queryParams;
-    const query = this.taskHistoryRepository
+    const query = getCustomRepository(TaskHistoryRepository)
       .createQueryBuilder("task_history")
       .orderBy("task_history.created_at", "DESC")
       .offset((page - 1) * pageSize)
