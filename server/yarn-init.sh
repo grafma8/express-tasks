@@ -1,8 +1,10 @@
 #!/bin/sh
+
+connection=default
 # yarn install && \
 # yarn migrate:generate -n Initialize --connection=default && \
-yarn migrate:run --connection=default && \
-yarn seed:run --seed CreateUsers --connection=default && \
-yarn seed:run --seed CreateCategories --connection=default && \
-yarn seed:run --seed CreateTasks --connection=default && \
-yarn seed:run --seed CreateTaskHistories --connection=default
+yarn migrate:run --connection=$connection && \
+yarn seed:run --seed CreateUsers --connection=$connection && \
+yarn seed:run --seed CreateCategories --connection=$connection && \
+yarn seed:run --seed CreateTasks --connection=$connection && \
+yarn seed:run --seed CreateTaskHistories --connection=$connection
