@@ -28,9 +28,11 @@ export enum TaskType {
 
 export enum TaskStatus {
   CREATED = 10,
-  DONE = 20,
-  ARCHIVED = 30,
-  DELETED = 40,
+  STARTED = 20,
+  FINISHED = 30,
+  DONE = 40,
+  ARCHIVED = 50,
+  DELETED = 60,
 }
 
 @Entity()
@@ -59,7 +61,7 @@ export class Task {
 
   @Column({
     type: "int2",
-    default: TaskType.ONCE
+    default: TaskType.ONCE,
   })
   type!: TaskType;
 
